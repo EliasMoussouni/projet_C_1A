@@ -25,31 +25,37 @@ typedef struct structure_de_joueur
     int nbJoueur;
 } Joueur;
 
-typedef struct tableau_de_cases {
- char nom[100];
- int zone[31];
- int plateau_monopoly;
- int Plateau;
- int salaire;
- int loyer;
- int salaire1J;
- int salaire2J;
- int salaire3J;
- int salaire4J;
- int salaire1JM;
- int salaireJoueur;
- int salaireJoueurMondial;
- int president;
- bool aeroport;
- bool achat;
- bool club;
- }cases;
+typedef struct Club{
+     char nom[100];
+     int zone[31];
+     int plateau_monopoly;
+     int Plateau;
+     int salaire;
+     int loyer;
+     int salaire1J;
+     int salaire2J;
+     int salaire3J;
+     int salaire4J;
+     int salaire1JM;
+     int salaireJoueur;
+     int salaireJoueurMondial;
+     int president;
+     bool aeroport;
+     bool achat;
+     bool club;
+}Club;
+
+
+typedef struct Plateau {
+    Club plateau[32];
+}Plateau;
 
 //Prototypes des Fonctions qu'on utilise dans le main.
 
-void Color(int couleurDuTexte,int couleurDeFond);
+void color(int couleurDuTexte,int couleurDeFond);
 void affichagePlateau();
 void de(Joueur J[],int indice);
 void plateau_monopoleague();
+void acheter_ou_vendre_joueur();
 
 #endif // HEADERELIAS_H_INCLUDED
