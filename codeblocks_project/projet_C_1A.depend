@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1584205420 source:c:\users\mouss\documents\codeblocks ingé1\entrainement\exercices\exercices c\tp\tp25octobre\tp\projetc\projet_c_1a\codeblocks_project\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1641661250 source:c:\users\mouss\documents\codeblocks ingé1\entrainement\exercices\exercices c\tp\tp25octobre\tp\projetc\projet_c_1a\codeblocks_project\message.c
+	"header.h"
+
+1641660472 c:\users\mouss\documents\codeblocks ingé1\entrainement\exercices\exercices c\tp\tp25octobre\tp\projetc\projet_c_1a\codeblocks_project\header.h
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<stdbool.h>
+
