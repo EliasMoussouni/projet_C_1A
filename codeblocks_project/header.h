@@ -15,47 +15,54 @@ typedef struct structure_de_joueur
     int colonne;
     int argent;
     int indice;
-    int nombreFootballerBons;
-    int nombreFootballerClasseMondiale;
+    int nombreFootballeurBons;
+    int nombreFootballeurClasseMondiale;
     int nombreEquipesPossede;
-    int CartePrison;
-    int CarteChance;
-    int CarteCommunaute;
+    int cartePrison;
+    int carteChance;
+    int carteCommunaute;
     int valeur_de;
-    int nbJoueur;
-} Joueur;
+    int nJoueur;
+}Joueur;
+
+enum typeCellule{club, prison, chance, aeroport, tourDuMonde, coupeDEurope};
 
 typedef struct Club{
+     bool possede;
+     char president; //numéro du joueur président vaut -1 si il n'est pas possédé
      char nom[100];
      int zone[31];
-     int plateau_monopoly;
-     int Plateau;
-     int salaire;
+
+     int prixDuClub;
+     int prixFootballeurSimple;
+     int prixFootballeurMondial;
+
+     int nFootballeursSimples;
+     int nFootballeursMondiaux;
+
      int loyer;
-     int salaire1J;
-     int salaire2J;
-     int salaire3J;
-     int salaire4J;
-     int salaire1JM;
-     int salaireJoueur;
-     int salaireJoueurMondial;
-     int president;
-     bool aeroport;
-     bool achat;
-     bool club;
+     int salaire1F;
+     int salaire2F;
+     int salaire3F;
+     int salaire4F;
+     int salaireFootballeurMondial;
 }Club;
 
-
-typedef struct Plateau {
-    Club plateau[32];
+typedef struct Plateau{
+    char cellulesPlateau[32];
+    Club listeClubs[20];
+    char tableCorrespondance[20]; // correspondance des indices des cellules et des clubs
 }Plateau;
+
 
 //Prototypes des Fonctions qu'on utilise dans le main.
 
 void color(int couleurDuTexte,int couleurDeFond);
 void affichagePlateau();
-void de(Joueur J[],int indice);
+int de();
 void plateau_monopoleague();
-void acheter_ou_vendre_joueur();
+void acheter_joueur();
+void acheter_joueur();
+bool deplacement_J(Joueur *J);
 
 #endif // HEADERELIAS_H_INCLUDED

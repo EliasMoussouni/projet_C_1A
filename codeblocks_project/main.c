@@ -1,42 +1,76 @@
 #include "header.h"
 
 int main(){
-
     Joueur J[6];
     int nJoueur;
     bienvenue(J);
 }
-/*
-void acheter_ou_vendre_joueur()
-{
 
+
+
+void acheter_joueur(Club club, Joueur joueur)
+{
+  // Vérifier si le club appartient au joueur
+  bool estMondial;
+  if (club.president != joueur.nJoueur){
+    printf("Vous ne pouvez pas acheter de joueurs dans ce club\n");
+    exit(0);
+  }
+  else{
+  // Demander le type de joueur
+  printf("Voulez-vous acheter un joueur ?\n");
+  scanf("Le footballeur est-il de classe mondiale (y/n) %d \n", &estMondial);
+  if (!estMondial){
+    int nFootballeursSimples = club.nFootballeursSimples;
+    // Vérifier le nombre de joueurs et les finances
+    if (nFootballeursSimples >= 4){
+      printf("Nombre de footballeurs maximum dépassé, vous ne pouvez plus acheter \n");
+      exit(0);
+    }
+    else if (joueur.argent < club.prixFootballeurSimple){
+      printf("Vous n'avez pas les moyens d'acheter ce joueur \n");
+      exit(0);
+    }
+    else{
+      club.nFootballeursSimples = club.nFootballeursSimples + 1;
+      joueur.argent -= club.prixFootballeurSimple;
+    }
+  }
+  else{
+    int nFootballeursMondiaux = club.nFootballeursMondiaux;
+    if (nFootballeursMondiaux >= 1){
+      printf("Nombre de footballeurs mondiaux dépassé, vous ne pouvez plus acheter \n");
+      exit(0);
+  }
+  else{
+    club.nFootballeursMondiaux = club.nFootballeursMondiaux + 1;
+    joueur.argent -= club.prixFootballeurMondial;
+  }
+  }
+  }
 }
-*/
+
+void vendre_joueur(Club club, Joueur joueur){
+}
+
 
 
 void color(int couleurDuTexte, int couleurDeFond){
-
-    HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
 }
 
 
-void go_to_lig_col( int lig, int col )
+void go_to_lig_col(int lig, int col)
 {
-
 // ressources
-
 COORD myCoord;
-
 myCoord.X = col;
 myCoord.Y = lig;
-
 SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), myCoord );
-
 }
 
-void de(Joueur J[],int indice)
-
+int de()
 {
     //go_to_lig_col();
     int premierDe=0;
@@ -47,26 +81,25 @@ void de(Joueur J[],int indice)
     int somme;
     const int MAX=6, MIN=1;
     srand(time(NULL));
-    printf("C'est  a vous de lancer les des %c \n", J[indice].pseudo);
 
     char reponse;
     do
     {
         printf("Tapez 1 pour lancer les des\n");
         scanf("%c", &reponse);
-    }while(reponse!='1');
+    }while(reponse != '1');
 
-    if(reponse=='1')
+    if(reponse =='1')
     {
     do
     {
     premierDe = (rand() % (MAX-MIN + 1)) + MIN;
     deuxiemeDe = (rand() % (MAX-MIN + 1)) + MIN;
-    somme= premierDe+deuxiemeDe;
+    somme = premierDe+deuxiemeDe;
     printf("Vos des ont ete lance\n");
     printf("Votre premier de affiche la valeur %d\nVotre second de affiche la valeur %d\n",premierDe,deuxiemeDe);
     printf("Vous allez avancer de %d cases\n",somme);
-    if(premierDe==deuxiemeDe&&lancerdede!=3)
+    if(premierDe == deuxiemeDe && lancerdede!=3)
     {
     printf("Vos deux des affichent les memes valeurs\nVeuillez relancer vos des\n");
     }
@@ -80,34 +113,32 @@ void de(Joueur J[],int indice)
     }
     }
     while(premierDe==deuxiemeDe);
-
-
     }
-
-
+    return somme;
 }
 
+int get_nombre_joueurs(){
+  int nJoueur;
+  printf("Rentrez le nombre de joueurs :\n");
+  scanf("%d", &nJoueur);
+  while (nJoueur<2 || nJoueur>6)
+  {
+      printf("Veuillez rentrez le nombre de joueurs a nouveau (de 2 a 6 joueurs disponibles): \n");
+      scanf("%d",&nJoueur);
+  }
+  return nJoueur;
+}
 
-int lancerpartie(Joueur J[])
+int lancer_partie(Joueur J[])
 {
-int nJoueur=0;
-int indice=0;
-/*char president[20];
-char president2[20];
-char president3[20];
-char president4[20];
-char president5[20];
-char president6[20];
-*/
- printf("Rentrez le nombre de joueurs :\n");
- scanf("%d", &nJoueur);
- while (nJoueur<2 || nJoueur>7)
- {
-     printf("Veuillez rentrez le nombre de joueurs a nouveau (de 2 a 6 joueurs disponibles): \n");
-     scanf("%d",&nJoueur);
+ int indice = 0;
+ int nJoueur = get_nombre_joueurs();
+ bool joueursRestants[6];
+ for (int i=0; i<nJoueur; i++){
+   joueursRestants[i] = true;
  }
- printf("Rentrez le pseudonyme des joueurs:\n");
 
+ printf("Rentrez le pseudonyme des joueurs:\n");
  if (nJoueur==2)
  {
     printf("==>Rentrez le pseudonyme du joueur 1:\n");
@@ -116,7 +147,7 @@ char president6[20];
     printf("==>Rentrez le pseudonyme du joueur 2:\n");
     scanf("%s", J[indice].pseudo);
     indice=indice+1;
-    printf("%s et %s sont nos presidents aujourd'hui !",J[0].pseudo,J[1].pseudo);
+    printf("%s et %s sont nos joueurs aujourd'hui !",J[0].pseudo,J[1].pseudo);
  }
  else if (nJoueur==3)
  {
@@ -130,7 +161,7 @@ char president6[20];
     scanf("%s", J[indice].pseudo);
     indice=indice+1;
     printf("\n");
-    printf("%s, %s et %s sont nos presidents aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo);
+    printf("%s, %s et %s sont nos joueurs aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo);
  }
  else if (nJoueur==4)
  {
@@ -146,9 +177,9 @@ char president6[20];
     printf("==>Rentrez le pseudonyme du joueur 4: \n");
     scanf("%s", J[indice].pseudo);
     indice=indice+1;
-    printf("%s, %s, %s et %s sont nos presidents aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo,J[3].pseudo);
+    printf("%s, %s, %s et %s sont nos joueurs aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo,J[3].pseudo);
  }
- else if(nJoueur==5)
+ else if (nJoueur==5)
  {
     printf("==>Rentrez le pseudonyme du joueur 1: \n");
     scanf("%s", J[indice].pseudo);
@@ -170,9 +201,11 @@ char president6[20];
     scanf("%s",J[indice].pseudo);
     indice=indice+1;
     printf("\n");
-    printf("%s, %s, %s, %s et %s sont nos presidents aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo,J[3].pseudo,J[4].pseudo);
+    printf("%s, %s, %s, %s et %s sont nos joueurs aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo,J[3].pseudo,J[4].pseudo);
  }
  else if (nJoueur==6)
+
+
  {
     printf("==>Rentrez le pseudonyme du joueur 1: \n");
     scanf("%s", J[indice].pseudo);
@@ -199,8 +232,23 @@ char president6[20];
     indice=indice+1;
     printf("\n");
     printf("\n");
-    printf("%s, %s, %s, %s, %s et %s sont nos presidents aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo,J[3].pseudo,J[4].pseudo,J[5].pseudo);
+    printf("%s, %s, %s, %s, %s et %s sont nos joueurs aujourd'hui !",J[0].pseudo,J[1].pseudo,J[2].pseudo,J[3].pseudo,J[4].pseudo,J[5].pseudo);
  }
+
+while (true){
+  printf("C'est  a vous de lancer les dés %c \n", J[indice].pseudo);
+  int somme = de();
+  bool gameOver;
+  if (joueursRestants[indice]){
+      gameOver = deplacement_J(&J[indice]);
+  }
+  if (gameOver){
+    joueursRestants[indice] = false;
+  }
+  indice += 1;
+  indice = indice % nJoueur;
+}
+
 return nJoueur;
 }
 
@@ -1681,12 +1729,6 @@ printf("%c",0xB3);
 }
 
 
-
-/*void deplacement(Joueur J[], int indice, cases tabcase[]){
-
-    de(J, indice);
-}
-*/
 void tirage_orde(Joueur J[], int indice, int nJoueur)
 {
     int tirage;
@@ -1701,7 +1743,6 @@ void bienvenue(Joueur J[]){
     int action=0;
     int nJoueur;
 
-
     printf("============ \n");
     printf("     BIENVENUE DANS LE MENU DU JEU MONOPOLEAGUE    \n \n \n");
     printf("Que voulez vous faire ?\n \n \n");
@@ -1714,6 +1755,7 @@ void bienvenue(Joueur J[]){
     printf("============ \n");
     printf("Rentrez le numero de l'action que vous voulez effectuer:\n");
     scanf("%d",&action);
+
     while (action<1 || action>6)
     {
     printf("Vous n'avez pas entre un bon numero, recommencez je vous prie. \n");
@@ -1721,8 +1763,10 @@ void bienvenue(Joueur J[]){
     }
     if (action==1)
     {
-        nJoueur=lancerpartie(J);
+        nJoueur=lancer_partie(J);
     }
+
+    // TO DO : autres actions
     int tab_pion[nJoueur];
 
     printf("\nLes joueurs ont le choix entre six pions:\n");
@@ -1801,9 +1845,12 @@ void bienvenue(Joueur J[]){
 //fonction effacer le pion
 //    deplacementJHorizDroite(2,4,17);
     printf("%c",tab_pion[0]);
-
 }
 
+bool deplacement_J(Joueur *J){
+    // TO DO
+    return true;
+}
 void deplacement_J_horiz_droite(int l,int c, int deplacement)
 {
    go_to_lig_col(l,c+deplacement);
